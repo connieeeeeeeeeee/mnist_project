@@ -7,12 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile2 --tag mnist_classifier:$(date +%s)
+
+    - name: Log in to Docker Hub
+      run: echo "Gandr0108*!?" | docker login -u "connie888" --password-stdin
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_NAME=mnist_classifier
+        IMAGE_TAG=$(date +%s)
+        docker build . -f Dockerfile2 -t $IMAGE_NAME:$IMAGE_TAG
+        docker tag $IMAGE_NAME:$IMAGE_TAG your_username_here/$IMAGE_NAME:$IMAGE_TAG
+        docker push your_username_here/$IMAGE_NAME:$IMAGE_TAG
