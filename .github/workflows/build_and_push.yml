@@ -24,6 +24,7 @@ jobs:
         docker tag $IMAGE_NAME:$IMAGE_TAG connie888/$IMAGE_NAME:$IMAGE_TAG
 
   push:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
