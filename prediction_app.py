@@ -25,3 +25,4 @@ if uploaded_file is not None:
     prediction = model.predict(img_array)
     st.write(f"Prediction: **{np.argmax(prediction)}**")
 
+print("connie")
