@@ -1,0 +1,35 @@
+# .github/workflows/build.yml
+name: Build Docker Image
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image_tag: ${{ steps.set_tag.outputs.tag }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set image tag
+      id: set_tag
+      run: echo "tag=$(date +%s)" >> $GITHUB_OUTPUT
+
+    - name: Build Docker image
+      run: |
+        IMAGE_NAME=mnist_classifier
+        IMAGE_TAG=${{ steps.set_tag.outputs.tag }}
+        docker build . -f Dockerfile2 -t $IMAGE_NAME:$IMAGE_TAG
+        docker save $IMAGE_NAME:$IMAGE_TAG | gzip > image.tar.gz
+
+    - name: Upload Docker image artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-image
+        path: image.tar.gz
