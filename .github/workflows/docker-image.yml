@@ -21,5 +21,5 @@ jobs:
         IMAGE_NAME=mnist_classifier
         IMAGE_TAG=$(date +%s)
         docker build . -f Dockerfile2 -t $IMAGE_NAME:$IMAGE_TAG
-        docker tag $IMAGE_NAME:$IMAGE_TAG your_username_here/$IMAGE_NAME:$IMAGE_TAG
-        docker push your_username_here/$IMAGE_NAME:$IMAGE_TAG
+        docker tag $IMAGE_NAME:$IMAGE_TAG connie888/$IMAGE_NAME:$IMAGE_TAG
+        docker push connie888/$IMAGE_NAME:$IMAGE_TAG
